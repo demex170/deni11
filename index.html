@@ -60,6 +60,13 @@ img{display:block;max-width:100%;}
     background:
         linear-gradient(180deg, rgba(251,242,230,1) 55%, rgba(251,242,230,0));
     text-align:center;
+    opacity:1;visibility:visible;pointer-events:auto;
+    transition:opacity .35s var(--ease), visibility 0s linear 0s;
+}
+
+.header.hidden{
+    opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .3s var(--ease), visibility 0s linear .3s;
 }
 
 .eyebrow{
@@ -331,6 +338,8 @@ img{display:block;max-width:100%;}
 
 /* ========================================================= LETTER */
 
+#sceneLetter{padding-top:40px;transition:opacity .5s var(--ease), transform .65s var(--ease), visibility 0s linear .65s, padding-top .4s var(--ease);}
+
 .letter-wrap{width:min(620px,100%);max-height:100%;overflow:auto;scrollbar-width:none;padding:4px 4px 25px;}
 .letter-wrap::-webkit-scrollbar{display:none;}
 
@@ -486,7 +495,6 @@ img{display:block;max-width:100%;}
             </div>
         </div>
     </section>
-
     <!-- MEMORIES -->
     <section id="sceneMemories" class="scene">
         <div class="memory-wrap">
@@ -515,8 +523,8 @@ img{display:block;max-width:100%;}
 
             <div class="track-card">
                 <div class="track-subtitle">სიმღერა, რომელიც შენ და ჩემზე მაგონებს</div>
-                <div class="track-title">Risk It All</div>
-                <div class="track-artist">Bruno Mars</div>
+                <div class="track-title">Lovesong</div>
+                <div class="track-artist">Adele</div>
 
                 <div class="player">
                     <button id="playButton" class="play-button" type="button" aria-label="დაკვრა">▶</button>
@@ -539,25 +547,13 @@ img{display:block;max-width:100%;}
                 <h2 class="letter-title">ძვირფასო,</h2>
 
                 <div class="letter-text">
-                    ვიცი, ეს ცოტა სარისკო იყო...
-                    <br><br>
-                    მაგრამ ხანდახან საუკეთესო რაღაცეები სწორედ პატარა რისკით იწყება.
-                    <br><br>
-                    მინდოდა რაღაც განსაკუთრებული მექნა, უბრალოდ კითხვის დასმის ნაცვლად.
-                    <br><br>
-                    ყოველი პატარა წამი, ყოველი საუბარი, ყოველი სიცილი და ყოველი მოგონება რაღაცაა, რისი შენახვაც მინდა.
-                    <br><br>
-                    ასე რომ... <strong>გმადლობ, რომ თანხმა თქვი.</strong>
-                    <br><br>
-                    იმედი მაქვს, ეს მხოლოდ დასაწყისია იმ მრავალი მოგონებისა, რასაც ერთად შევქმნით.
-                    <br><br>
-                    და თუ ოდესმე გაინტერესებს, ისევ გავიმეორებდი თუ არა ამას ყველაფერს...
-                    <br>
-                    აუცილებლად გავიმეორებდი.
+                    ლიზუნააა ჩემო ყველაზე განსაკუთრებულო განსხვავებულო და ყველასგან გამორჩეულო მიყვარხარ სიგიჟემდე მინდარომ სულ ბედნიერი იყო ეს პატარა და ცოტა მოულოდნელი ესემესი🫣🫣 რომელსაც არელოდი😁😁🤪 კიდევ ბევრი უამრავი მოულოდნელი სიურპრიზები და უამრავი ლამაზი და კარგი თავგადასავალი გველოდება ჩვენ ერთად შენ ჩემი ცხოვრება შეცვალე უკეთესობისკენ და ზუსტად მაშინ გამოჩნდი როცა ყველაფრის იმედი მქონდა გადაწურული დამანახე და მასწავლე სიყვარული ყოველთვის ვიქნები შენი სიყვარულის სადარაჯოზე და შენი ერთგული ჩემი იმედი ყოველთვის გქონდეს და მინდა იცოდერეომ არასდროს არ მიგატოვებ და არასდროს არ გაგიცრუებ იმ იმედებს რასაც შენ ჩემს მიმართ ამყარებ ჩემო ვარსკვლავ გოგონავ ჩემი გადარეული გოგოხარ შენ😁😁🤪🤪🤪ჩემო პრინცესავ ძალიან მიყვარხარ🌸👸😍
                 </div>
 
-                <div class="signature">სიყვარულით ♡</div>
+                <div class="signature">სიყვარულით შენი ლუკა❤️</div>
             </article>
+
+            <button id="letterBack" class="back-button" style="margin:18px auto 0;display:block;" type="button">უკან დაბრუნება</button>
         </div>
     </section>
 
@@ -576,6 +572,8 @@ const scenes = {
     music: document.getElementById("sceneMusic"),
     letter: document.getElementById("sceneLetter")
 };
+
+const header = document.querySelector(".header");
 
 const questionText = document.getElementById("questionText");
 const yesButton = document.getElementById("yesButton");
@@ -605,6 +603,7 @@ function goToScene(name){
     Object.values(scenes).forEach(scene => scene.classList.remove("active"));
     requestAnimationFrame(() => scenes[name].classList.add("active"));
     currentScene = name;
+    if(header) header.classList.toggle("hidden", name === "letter");
 }
 
 noButton.addEventListener("click", handleNo);
@@ -649,6 +648,7 @@ document.getElementById("gift3").addEventListener("click", () => { createParticl
 
 document.getElementById("memoryBack").addEventListener("click", () => goToScene("gifts"));
 document.getElementById("musicBack").addEventListener("click", () => goToScene("gifts"));
+document.getElementById("letterBack").addEventListener("click", () => goToScene("gifts"));
 
 playButton.addEventListener("click", toggleMusic);
 
